@@ -1,0 +1,54 @@
+#POST create a new address:
+
+POST http://localhost:8080/addresses
+Content-Type: application/json
+
+{
+  "street": "Тверская",
+  "city": "Москва"
+}
+
+
+###
+
+POST http://localhost:8080/persons
+Content-Type: application/json
+
+{
+  "name": "Сидор",
+  "surname": "Никифоров",
+  "address": {
+    "street": "Невский проспект",
+    "city": "Санкт-Петербург"
+  }
+}
+
+### GET all persons:
+
+GET http://localhost:8080/persons
+
+###
+
+PUT http://localhost:8080/persons/1
+Content-Type: application/json
+
+{
+  "name": "Николай",
+  "surname": "Гоголь",
+  "address": {
+    "street": "Невский проспект",
+    "city": "Санкт-Петербург"
+  }
+}
+
+### GET all persons with modified person with id 1:
+
+GET http://localhost:8080/persons
+
+### Get address by ID
+
+GET http://localhost:8080/addresses/1
+
+### Get person by ID
+
+GET http://localhost:8080/persons/3
