@@ -79,6 +79,29 @@
 		"details": "Пользователь с указанным идентификатором не был найден в системе."
 	}
      ```
+## Задание 3: Интеграция Swagger UI и аннотаций OpenAPI в Spring-приложение
+
+1. **Добавлена зависимость `springdoc-openapi-starter-webmvc-ui` в `pom.xml`:**
+
+```xml
+<dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    <version>2.6.0</version>
+</dependency>
+```
+
+3. **Добавлены аннотации OpenAPI в контроллер `PersonController` и `AddressController`:**
+
+   * `@OpenAPIDefinition` — общая информация об API.
+   * `@Tag` — описание логической группы эндпоинтов.
+   * `@Operation(summary = "...")` — краткие описания операций над ресурсами (методы контроллера).
+
+**Открытие документации по адресу:**
+
+`http://localhost:8080/swagger-ui/index.html#`
+
+---
 
 ## Настройка базы данных
 
