@@ -1,5 +1,10 @@
 package ru.home.training.java.cetrification.spring.controller;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +16,7 @@ import java.util.List;
 /**
  * REST-контроллер для управления сущностями Address (Адреса).
  * Обеспечивает базовые CRUD-операции для работы с адресами.
- * 
+ *
  * <p><strong>Основные функции:</strong>
  * <ul>
  *   <li>Создание и управление адресами</li>
@@ -41,6 +46,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/addresses")
+@OpenAPIDefinition(info = @Info(title = "Addresses API", version = "1.0"))
+@Tag(name = "Addresses", description = "API управления информацией об адресах")
 public class AddressController {
 
     private final AddressRepository addressRepository;
@@ -51,6 +58,7 @@ public class AddressController {
 
     //Получение всех Address
     @GetMapping
+    @Operation(summary = "Получение списка всех адресов")
     public ResponseEntity<List<Address>> getAllAddresses() {
         List<Address> addresses = addressRepository.findAll();
         return ResponseEntity.ok(addresses);
@@ -58,6 +66,7 @@ public class AddressController {
     
     //Получение адреса по id
     @GetMapping("/{id}")
+    @Operation(summary = "Получение информации об адресе по идентификатору")
     public ResponseEntity<Address> getAddressById(@PathVariable Long id) {
         Address address = addressRepository.findById(id).orElse(null);
         if (address == null) {
@@ -75,6 +84,7 @@ public class AddressController {
 
     //Изменение адреса по id
     @PutMapping("/{id}")
+    @Operation(summary = "Создание нового адреса")
     public ResponseEntity<Address> updateAddress(@PathVariable Long id, @RequestBody Address address) {
         Address existingAddress = addressRepository.findById(id).orElse(null);
         if (existingAddress == null) {
@@ -87,6 +97,7 @@ public class AddressController {
 
     //Удаление адреса по id
     @DeleteMapping("/{id}")
+    @Operation(summary = "Удаление адреса по идентификатору")
     public ResponseEntity<Void> deleteAddress(@PathVariable Long id) {
         Address existingAddress = addressRepository.findById(id).orElse(null);
         if (existingAddress == null) {

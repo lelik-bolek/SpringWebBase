@@ -1,5 +1,10 @@
 package ru.home.training.java.cetrification.spring.controller;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +43,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/persons")
+@OpenAPIDefinition(info = @Info(title = "Person API", version = "1.0"))
+@Tag(name = "Persons", description = "API управления информацией о людях")
 public class PersonController {
 
     private final PersonRepository personRepository;
@@ -48,6 +55,7 @@ public class PersonController {
 
     // Метод для получения всех пользователей
     @GetMapping()
+    @Operation(summary = "Получение списка людей")
     public ResponseEntity<List<Person>> getAllPersons() {
         List<Person> persons = personRepository.findAll();
         return ResponseEntity.ok(persons);
@@ -55,6 +63,7 @@ public class PersonController {
     
     // Метод для получения пользователя по id
     @GetMapping("/{id}")
+    @Operation(summary = "Получение информации о человеке по id")
     public ResponseEntity<Person> getPersonById(@PathVariable Long id) {
         Person person = personRepository.findById(id)
             .orElseThrow(() -> new PersonNotFoundException(id));
@@ -63,6 +72,7 @@ public class PersonController {
 
     // Метод для создания нового пользователя
     @PostMapping
+    @Operation(summary = "Добавление нового человека")
     public ResponseEntity<Person> createPerson(@RequestBody Person person){
         Person savedPerson = personRepository.save(person);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedPerson);
@@ -70,6 +80,7 @@ public class PersonController {
 
     // получение всех по адресов
     @GetMapping("/addresses")
+    @Operation(summary = "Получение списка людей с адресами")
     public ResponseEntity<List<Person>> getAllPersonWithAddresses() {
         List<Person> persons = personRepository.findAllWithAddresses();
         return ResponseEntity.ok(persons);
@@ -77,8 +88,9 @@ public class PersonController {
     
     // Метод для обновления данных пользователя
     @PutMapping("/{id}")
+    @Operation(summary = "Обновление информации о человеке")
     public ResponseEntity<Person> updatePerson(@PathVariable Long id, 
-         @RequestBody Person person) {
+        @RequestBody Person person) {
         person.setId(id);   // Устанавливаем ID из URL в объект Person
         Person updatedPerson = personRepository.save(person);
         return ResponseEntity.ok(updatedPerson);
@@ -86,8 +98,9 @@ public class PersonController {
 
     // Метод для частичного обновления данных пользователя
     @PatchMapping("/{id}")
+    @Operation(summary = "Частичное обновление данных о человеке")
     public ResponseEntity<Person> patchPerson(@PathVariable Long id, 
-           @RequestBody Person updatedPerson) {
+        @RequestBody Person updatedPerson) {
         Person existingPerson = personRepository.findById(id).orElse(null);
         if (existingPerson == null) {
             return ResponseEntity.notFound().build(); // Возвращает HTTP 404 с пустым телом.
@@ -104,6 +117,7 @@ public class PersonController {
 
     // Метод для удаления пользователя
     @DeleteMapping("/{id}")
+    @Operation(summary = "Удаление информации о человеке")
     public ResponseEntity<Void> deletePerson(@PathVariable Long id) {
         // проверка есть ли такой пользователь
         Person existingPerson = personRepository.findById(id)
