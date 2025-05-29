@@ -1,4 +1,4 @@
-package ru.home.training.java.cetrification.spring.web;
+package ru.home.training.java.cetrification.spring.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

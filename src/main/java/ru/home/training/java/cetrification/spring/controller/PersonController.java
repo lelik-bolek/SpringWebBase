@@ -1,4 +1,4 @@
-package ru.home.training.java.cetrification.spring.web;
+package ru.home.training.java.cetrification.spring.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.*;
 
 import ru.home.training.java.cetrification.spring.data.Person;
 import ru.home.training.java.cetrification.spring.data.PersonRepository;
+import ru.home.training.java.cetrification.spring.exception.PersonNotFoundException;
 
 import java.util.List;
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-class PersonNotFoundException extends RuntimeException {
-}
+//@ResponseStatus(HttpStatus.NOT_FOUND)
+//class PersonNotFoundException extends RuntimeException {}
 
 /**
  * REST-контроллер для работы с сущностью Person.
@@ -57,7 +57,7 @@ public class PersonController {
     @GetMapping("/{id}")
     public ResponseEntity<Person> getPersonById(@PathVariable Long id) {
         Person person = personRepository.findById(id)
-            .orElseThrow(PersonNotFoundException::new);
+            .orElseThrow(() -> new PersonNotFoundException(id));
         return ResponseEntity.ok(person);
     }
 
@@ -107,7 +107,7 @@ public class PersonController {
     public ResponseEntity<Void> deletePerson(@PathVariable Long id) {
         // проверка есть ли такой пользователь
         Person existingPerson = personRepository.findById(id)
-                .orElseThrow(PersonNotFoundException::new);
+                .orElseThrow(() -> new PersonNotFoundException(id));
         personRepository.delete(existingPerson);
         //personRepository.deleteById(id);
         return ResponseEntity.noContent().build(); // Возвращает HTTP 204 (No Content) с пустым телом.
